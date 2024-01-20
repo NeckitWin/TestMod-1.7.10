@@ -2,16 +2,18 @@ package com.neckitwin.testmod.common.tile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
 public class TileCollector extends TileEntity {
-    private static final int RADIUS = 5;
+    private int RADIUS = 5;
 
     @Override
     public void updateEntity() {
@@ -35,21 +37,34 @@ public class TileCollector extends TileEntity {
                         if (tileEntity instanceof IInventory) {
                             IInventory inventory = (IInventory) tileEntity;
 
+                            // Ищем такой же предмет в инвентаре
+                            for (int i = 0; i < inventory.getSizeInventory(); i++) {
+                                ItemStack existingStack = inventory.getStackInSlot(i);
+
+                                if (existingStack != null && existingStack.getItem() == stack.getItem() && existingStack.getItemDamage() == stack.getItemDamage()) {
+                                    int spaceLeft = existingStack.getMaxStackSize() - existingStack.stackSize;
+
+                                    if (spaceLeft >= stack.stackSize) {
+                                        existingStack.stackSize += stack.stackSize;
+                                        entityItem.setDead();
+                                        return;
+                                    }
+                                }
+                            }
+
+                            // Пробуем создать в пустом слоте
                             for (int i = 0; i < inventory.getSizeInventory(); i++) {
                                 if (inventory.isItemValidForSlot(i, stack)) {
                                     ItemStack existingStack = inventory.getStackInSlot(i);
 
-                                    // Проверка, есть ли слот или совпадает ли предмет
-                                    if (existingStack == null || (existingStack.getItem() == stack.getItem() && existingStack.getItemDamage() == stack.getItemDamage())) {
-                                        int spaceLeft = existingStack == null ? Math.min(inventory.getInventoryStackLimit(), stack.getMaxStackSize()) : existingStack.getMaxStackSize() - existingStack.stackSize;
+                                    if (existingStack == null) {
+                                        int spaceLeft = Math.min(inventory.getInventoryStackLimit(), stack.getMaxStackSize());
 
-                                        // Проверка есть ли место в инвентаре
                                         if (spaceLeft >= stack.stackSize) {
-                                            ItemStack remainingStack = existingStack == null ? stack : existingStack.copy();
-                                            remainingStack.stackSize += stack.stackSize;
+                                            ItemStack remainingStack = stack.copy();
                                             inventory.setInventorySlotContents(i, remainingStack);
                                             entityItem.setDead();
-                                            return; // Стоп
+                                            return;
                                         }
                                     }
                                 }
@@ -58,6 +73,28 @@ public class TileCollector extends TileEntity {
                     }
                 }
             }
+        }
+    }
+
+    public void handleInputStack(EntityPlayer player, ItemStack stack) {
+        if (RADIUS != 0) {
+            if (RADIUS < 8) {
+                RADIUS++;
+            } else if (RADIUS >= 8) {
+                RADIUS = 1;
+            }
+            player.addChatComponentMessage(new ChatComponentText("Радиус: " + RADIUS + " блоков"));
+        } else {
+            player.addChatComponentMessage(new ChatComponentText("Коллектор выключен"));
+        }
+    }
+
+    public void handleRedstone(boolean blockIndirectlyGettingPowered) {
+        if (blockIndirectlyGettingPowered) {
+            RADIUS = 0;
+        }
+        if (RADIUS == 0 && !blockIndirectlyGettingPowered) {
+            RADIUS = 1;
         }
     }
 }
