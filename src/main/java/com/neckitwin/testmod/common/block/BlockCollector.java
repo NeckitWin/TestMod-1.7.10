@@ -15,6 +15,7 @@ public class BlockCollector extends BlockContainer {
         setBlockName("Collector");
         setBlockTextureName(TestMod.MOD_ID+":Collector");
         setCreativeTab(ModTab.INSTANCE);
+        setHardness(1.5F);
     }
 
     // Привязываем тайл

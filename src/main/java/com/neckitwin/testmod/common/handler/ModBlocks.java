@@ -6,11 +6,14 @@ import com.neckitwin.testmod.common.tile.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks {
+    public static final BlockAnime BLOCK_ANIME = new BlockAnime();
     public static final BlockRand BLOCK_RAND = new BlockRand();
     public static final BlockRand2 BLOCK_RAND2 = new BlockRand2();
     public static final BlockCollector BLOCK_COLLECTOR = new BlockCollector();
     public static final BlockAnimeChest BLOCK_ANIME_CHEST = new BlockAnimeChest();
     public static void register() {
+        // Блоки
+        GameRegistry.registerBlock(BLOCK_ANIME, "blockAnime");
         GameRegistry.registerBlock(BLOCK_RAND, "blockRand");
         GameRegistry.registerBlock(BLOCK_RAND2, "blockRand2");
         GameRegistry.registerBlock(BLOCK_COLLECTOR, "blockCollector");
