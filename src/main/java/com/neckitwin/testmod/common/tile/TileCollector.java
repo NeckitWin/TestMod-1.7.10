@@ -89,6 +89,23 @@ public class TileCollector extends TileEntity {
         }
     }
 
+    // Пока не доделано, нужны пакеты
+    public void particles() {
+        if (this.worldObj.isRemote) { // Check if we are on the client side
+            double x = (double) this.xCoord + 0.5D;
+            double y = (double) this.yCoord + 1.5D; // Increase the y-coordinate
+            double z = (double) this.zCoord + 0.5D;
+
+            for (int dx = -RADIUS; dx <= RADIUS; dx++) {
+                for (int dz = -RADIUS; dz <= RADIUS; dz++) {
+                    double particleX = x + dx;
+                    double particleZ = z + dz;
+                    this.worldObj.spawnParticle("flame", particleX, y, particleZ, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
+    }
+
     public void handleRedstone(boolean blockIndirectlyGettingPowered) {
         if (blockIndirectlyGettingPowered) {
             RADIUS = 0;

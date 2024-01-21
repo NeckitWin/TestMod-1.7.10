@@ -14,7 +14,7 @@ public class BlockCollector extends BlockContainer {
     public BlockCollector() {
         super(Material.rock);
         setBlockName("Collector");
-        setBlockTextureName(TestMod.MOD_ID+":Collector");
+        setBlockTextureName(TestMod.MOD_ID + ":Collector");
         setCreativeTab(ModTab.INSTANCE);
         setHardness(1.5F);
     }
@@ -23,6 +23,16 @@ public class BlockCollector extends BlockContainer {
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileCollector();
+    }
+
+    // Если получил красный сигнал
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileCollector) {
+            TileCollector radius = (TileCollector) tile;
+            radius.handleRedstone(world.isBlockIndirectlyGettingPowered(x, y, z));
+        }
     }
 
     // При нажатии по блоку
@@ -39,15 +49,5 @@ public class BlockCollector extends BlockContainer {
             }
         }
         return true;
-    }
-
-    // Если получил красный сигнал
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof TileCollector) {
-            TileCollector radius = (TileCollector) tile;
-            radius.handleRedstone(world.isBlockIndirectlyGettingPowered(x, y, z));
-        }
     }
 }
