@@ -1,5 +1,6 @@
 package com.neckitwin.testmod.common;
 
+import com.neckitwin.testmod.TestMod;
 import com.neckitwin.testmod.common.handler.ModBlocks;
 import com.neckitwin.testmod.common.handler.ModItems;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
