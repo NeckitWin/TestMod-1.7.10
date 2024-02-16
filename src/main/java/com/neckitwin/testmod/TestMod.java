@@ -1,6 +1,7 @@
 package com.neckitwin.testmod;
 
 import com.neckitwin.testmod.common.CommonProxy;
+import com.neckitwin.testmod.common.handler.ModEntities;
 import com.neckitwin.testmod.common.network.RadiusPacket;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -20,6 +21,9 @@ public class TestMod {
     public static final String VERSION = "1.0";
     public static final SimpleNetworkWrapper NETWORK = new SimpleNetworkWrapper(MOD_ID);
 
+    @Mod.Instance(MOD_ID)
+    public static TestMod instance;
+
     @SidedProxy(
             clientSide = "com.neckitwin.testmod.common.ClientProxy",
             serverSide = "com.neckitwin.testmod.common.CommonProxy"
@@ -30,6 +34,7 @@ public class TestMod {
     public void preInit(FMLPreInitializationEvent event) {
         NETWORK.registerMessage(RadiusPacket.Handler.class, RadiusPacket.class, 0, Side.CLIENT);
         proxy.preInit(event);
+        ModEntities.init();
     }
 
     @Mod.EventHandler

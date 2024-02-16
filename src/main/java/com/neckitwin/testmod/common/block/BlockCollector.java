@@ -12,11 +12,11 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class BlockCollector extends BlockContainer {
     public BlockCollector() {
-        super(Material.rock);
+        super(Material.wood);
         setBlockName("Collector");
         setBlockTextureName(TestMod.MOD_ID + ":Collector");
         setCreativeTab(ModTab.INSTANCE);
-        setHardness(1.5F);
+        setHardness(1.0F);
     }
 
     // Привязываем тайл
