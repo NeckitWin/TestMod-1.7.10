@@ -11,6 +11,7 @@ public class ModBlocks {
     public static final BlockRand2 BLOCK_RAND2 = new BlockRand2();
     public static final BlockCollector BLOCK_COLLECTOR = new BlockCollector();
     public static final BlockSampleGUI BLOCK_SAMPLE_GUI = new BlockSampleGUI();
+    public static final BlockMechanism BLOCK_MECHANISM = new BlockMechanism();
     public static void register() {
         // Блоки
         GameRegistry.registerBlock(BLOCK_ANIME, "blockAnime");
@@ -18,10 +19,12 @@ public class ModBlocks {
         GameRegistry.registerBlock(BLOCK_RAND2, "blockRand2");
         GameRegistry.registerBlock(BLOCK_COLLECTOR, "blockCollector");
         GameRegistry.registerBlock(BLOCK_SAMPLE_GUI, "blockSampleGUI");
+        GameRegistry.registerBlock(BLOCK_MECHANISM, "blockMechanism");
         // Тайлы
         GameRegistry.registerTileEntity(TileRand.class, TestMod.MOD_ID+"tileRand");
         GameRegistry.registerTileEntity(TileCollector.class, TestMod.MOD_ID+"tileCollector");
         GameRegistry.registerTileEntity(TileRand2.class, TestMod.MOD_ID+"tileRand2");
         GameRegistry.registerTileEntity(TileSampleGUI.class, TestMod.MOD_ID+"tileSampleGUI");
+        GameRegistry.registerTileEntity(TileMechanism.class, TestMod.MOD_ID+"tileMechanism");
     }
 }

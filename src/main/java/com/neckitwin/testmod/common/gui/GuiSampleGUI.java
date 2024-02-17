@@ -38,7 +38,7 @@ public class GuiSampleGUI extends GuiContainer {
         this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
         mc.getTextureManager().bindTexture(ANIME);
-        this.drawTexturedModalRect(guiLeft + 290, guiTop+40, 36, 0, 256, 256);
+        this.drawTexturedModalRect(guiLeft + 290, guiTop+40, 44, 0, 256, 256);
         //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
