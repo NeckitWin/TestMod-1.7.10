@@ -4,7 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.Constants;
 
 public class TileSampleGUI extends TileEntity implements IInventory {
     private ItemStack[] inventory;
@@ -80,18 +82,33 @@ public class TileSampleGUI extends TileEntity implements IInventory {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        inventory[0] = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Item"));
+    public void writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+
+        NBTTagList inventoryList = new NBTTagList();
+        for (int i = 0; i < inventory.length; i++) {
+            // Проверьте на наличие предмета
+            if (inventory[i] != null) {
+                NBTTagCompound itemTag = new NBTTagCompound();
+                inventory[i].writeToNBT(itemTag);
+                inventoryList.appendTag(itemTag);
+            } else {
+                // Если слот пустой, добавьте пустой тег
+                inventoryList.appendTag(new NBTTagCompound());
+            }
+        }
+        compound.setTag("Inventory", inventoryList);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        if (inventory[0] != null) {
-            NBTTagCompound itemTag = new NBTTagCompound();
-            inventory[0].writeToNBT(itemTag);
-            compound.setTag("Item", itemTag);
+    public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
+
+        NBTTagList inventoryList = compound.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+
+        for (int i = 0; i < inventoryList.tagCount(); i++) {
+            NBTTagCompound itemTag = inventoryList.getCompoundTagAt(i);
+            inventory[i] = ItemStack.loadItemStackFromNBT(itemTag);
         }
     }
 

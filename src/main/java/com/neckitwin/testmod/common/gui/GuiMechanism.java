@@ -35,9 +35,9 @@ public class GuiMechanism extends GuiContainer {
 
         // Если таймер больше 0, отрисовываем часть текстуры LOADING
         if (tile.getTimer() > 0) {
-            int animationFrame = (tile.getTimer() / 20) % 5; // меняем кадр каждые 20 тиков, всего 5 кадра
+            int animationFrame = (tile.getTimer() / 5) % 20; // меняем кадр каждые 20 тиков, всего 5 кадра
             mc.getTextureManager().bindTexture(LOADING);
-            this.drawTexturedModalRect(guiLeft+94, guiTop+43, animationFrame*19, 0, 74, 56);
+            this.drawTexturedModalRect(guiLeft+94, guiTop+43, animationFrame*4, 0, 74, 56);
         }
     }
 
