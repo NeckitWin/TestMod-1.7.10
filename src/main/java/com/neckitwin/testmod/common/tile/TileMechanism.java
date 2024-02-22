@@ -150,11 +150,15 @@ public class TileMechanism extends TileEntity implements IInventory {
         super.writeToNBT(compound);
 
         NBTTagList inventoryList = new NBTTagList();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < inventory.length; i++) {
+            // Проверьте на наличие предмета
             if (inventory[i] != null) {
                 NBTTagCompound itemTag = new NBTTagCompound();
                 inventory[i].writeToNBT(itemTag);
                 inventoryList.appendTag(itemTag);
+            } else {
+                // Если слот пустой, добавьте пустой тег
+                inventoryList.appendTag(new NBTTagCompound());
             }
         }
         compound.setTag("Inventory", inventoryList);
@@ -166,13 +170,11 @@ public class TileMechanism extends TileEntity implements IInventory {
 
         NBTTagList inventoryList = compound.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < inventoryList.tagCount(); i++) {
             NBTTagCompound itemTag = inventoryList.getCompoundTagAt(i);
             inventory[i] = ItemStack.loadItemStackFromNBT(itemTag);
         }
     }
-
-
 
     // С какими предметами можно взаимодействовать контейнеру
     @Override
