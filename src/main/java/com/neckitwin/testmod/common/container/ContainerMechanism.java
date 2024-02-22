@@ -1,6 +1,6 @@
 package com.neckitwin.testmod.common.container;
 
-import com.neckitwin.testmod.common.slots.MechanismSlotOut;
+import com.neckitwin.testmod.common.slots.SlotOut;
 import com.neckitwin.testmod.common.tile.TileMechanism;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +22,7 @@ public class ContainerMechanism extends Container {
         this.addSlotToContainer(new Slot(tile, 0, 73, 36));
         this.addSlotToContainer(new Slot(tile, 1, 73, 63));
         this.addSlotToContainer(new Slot(tile, 2, 73, 90));
-        this.addSlotToContainer(new MechanismSlotOut(tile, 3, 173, 63));
+        this.addSlotToContainer(new SlotOut(tile, 3, 173, 63));
 
         for (i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {

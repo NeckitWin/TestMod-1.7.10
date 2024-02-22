@@ -4,8 +4,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class MechanismSlotOut extends Slot {
-    public MechanismSlotOut(IInventory inventory, int index, int x, int y) {
+public class SlotOut extends Slot {
+    public SlotOut(IInventory inventory, int index, int x, int y) {
         super(inventory, index, x, y);
     }
 

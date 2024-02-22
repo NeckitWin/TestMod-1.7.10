@@ -20,11 +20,13 @@ public class ModBlocks {
         GameRegistry.registerBlock(BLOCK_COLLECTOR, "blockCollector");
         GameRegistry.registerBlock(BLOCK_SAMPLE_GUI, "blockSampleGUI");
         GameRegistry.registerBlock(BLOCK_MECHANISM, "blockMechanism");
+        GameRegistry.registerBlock(new BlockBooster(), "blockBooster");
         // Тайлы
         GameRegistry.registerTileEntity(TileRand.class, TestMod.MOD_ID+"tileRand");
         GameRegistry.registerTileEntity(TileCollector.class, TestMod.MOD_ID+"tileCollector");
         GameRegistry.registerTileEntity(TileRand2.class, TestMod.MOD_ID+"tileRand2");
         GameRegistry.registerTileEntity(TileSampleGUI.class, TestMod.MOD_ID+"tileSampleGUI");
         GameRegistry.registerTileEntity(TileMechanism.class, TestMod.MOD_ID+"tileMechanism");
+        GameRegistry.registerTileEntity(TileBooster.class, TestMod.MOD_ID+"tileBooster");
     }
 }
