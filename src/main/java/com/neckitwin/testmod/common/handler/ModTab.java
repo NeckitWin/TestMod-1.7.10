@@ -17,7 +17,7 @@ public class ModTab extends CreativeTabs {
     @Override
     @SideOnly(Side.CLIENT)
     public Item getTabIconItem() {
-        return ModItems.ITEM_TEST;
+        return ModItems.ITEM_NECRO_STAFF;
     }
 
     @Override

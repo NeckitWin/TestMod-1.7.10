@@ -1,5 +1,7 @@
 package com.neckitwin.testmod.common.slots;
 
+import com.neckitwin.testmod.common.handler.ModItems;
+import com.neckitwin.testmod.common.item.ItemBoosterCard;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -17,6 +19,6 @@ public class SlotBooster extends Slot {
 
     @Override
     public boolean isItemValid(ItemStack stack) {
-        return stack.getItem() == Items.diamond;
+        return stack.getItem() == ModItems.ITEM_BOOSTER_CARD;
     }
 }

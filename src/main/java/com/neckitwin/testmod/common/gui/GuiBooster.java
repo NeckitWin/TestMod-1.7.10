@@ -33,11 +33,11 @@ public class GuiBooster extends GuiContainer {
         mc.getTextureManager().bindTexture(ANIME);
         this.drawTexturedModalRect(guiLeft + 290, guiTop+40, 44, 0, 256, 256);
 
-//        if (tile.getTimer() > 0) {
-//            int animationFrame = (tile.getTimer() / 5) % 20;
-//            mc.getTextureManager().bindTexture(LOADING);
-//            this.drawTexturedModalRect(guiLeft+94, guiTop+43, 0, 0, 74-4*animationFrame, 56);s
-//        }
+        if (tile.getTimer() > 0) {
+            int animationFrame = (tile.getTimer() / 20) % 5;
+            mc.getTextureManager().bindTexture(BACKGROUND);
+            this.drawTexturedModalRect(guiLeft+64, guiTop+50, 190, 0, 15-3*animationFrame, 8);
+        }
     }
 
     @Override

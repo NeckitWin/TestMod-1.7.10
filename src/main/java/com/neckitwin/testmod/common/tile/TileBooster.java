@@ -1,7 +1,11 @@
 package com.neckitwin.testmod.common.tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -10,6 +14,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class TileBooster extends TileEntity implements IInventory {
     private ItemStack[] inventory;
+    private int timer = 0;
 
     public TileBooster() {
         inventory = new ItemStack[getSizeInventory()];
@@ -84,27 +89,71 @@ public class TileBooster extends TileEntity implements IInventory {
     @Override
     public void updateEntity() {
         super.updateEntity();
-
-        // Код должен выполнятся на северной стороне
         if (!worldObj.isRemote) {
+            boolean hasItemsInInputSlots = true;
+            for (int i = 0; i < 2; i++) {
+                if (inventory[i] == null) {
+                    hasItemsInInputSlots = false;
+                    break;
+                }
+            }
+            // проверка, что в слоте 0 есть алмаз
+            if (hasItemsInInputSlots && (inventory[0].getItem() == Items.diamond && inventory[1].getItem() == Items.golden_apple)) {
+                if (timer == 0) {
+                    if (inventory[3] != null && inventory[4] != null && inventory[5] != null) {
+                        timer = 10;
+                    }else if(inventory[3] != null && inventory[4] != null || inventory[3] != null && inventory[5] != null || inventory[4] != null && inventory[5] != null){
+                        timer = 25;
+                    } else if (inventory[3] != null || inventory[4] != null || inventory[5] != null) {
+                        timer = 50;
+                    } else {
+                        timer = 100;
+                    }
+                }
+            }
 
+            if (!hasItemsInInputSlots && timer > 0) {
+                timer = 0;
+            }
+
+            if (timer > 0) {
+                timer--;
+            }
+
+            if (timer == 0 && hasItemsInInputSlots && (inventory[0].getItem() == Items.diamond && inventory[1].getItem() == Items.golden_apple)) {
+                for (int i = 0; i < 2; i++) {
+                    decrStackSize(i, 1);
+                }
+                if (inventory[2] == null) {
+                    inventory[2] = new ItemStack(Blocks.bedrock, 1);
+                } else {
+                    if (inventory[2].getItem() == ItemBlock.getItemFromBlock(Blocks.bedrock) && inventory[2].stackSize < 64) {
+                        inventory[2].stackSize++;
+                    }
+                }
+            }
             markDirty();
         }
+    }
+
+    public int getTimer() {
+        return this.timer;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-
         NBTTagList inventoryList = new NBTTagList();
         for (int i = 0; i < inventory.length; i++) {
-            // Проверьте на наличие предмета
             if (inventory[i] != null) {
                 NBTTagCompound itemTag = new NBTTagCompound();
                 inventory[i].writeToNBT(itemTag);
                 inventoryList.appendTag(itemTag);
             } else {
-                // Если слот пустой, добавьте пустой тег
                 inventoryList.appendTag(new NBTTagCompound());
             }
         }
@@ -114,9 +163,7 @@ public class TileBooster extends TileEntity implements IInventory {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-
         NBTTagList inventoryList = compound.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
-
         for (int i = 0; i < inventoryList.tagCount(); i++) {
             NBTTagCompound itemTag = inventoryList.getCompoundTagAt(i);
             inventory[i] = ItemStack.loadItemStackFromNBT(itemTag);

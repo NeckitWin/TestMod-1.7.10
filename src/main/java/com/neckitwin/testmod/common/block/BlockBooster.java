@@ -15,7 +15,7 @@ public class BlockBooster extends BlockContainer {
     public BlockBooster() {
         super(Material.wood);
         this.setBlockName("BlockBooster");
-        this.setBlockTextureName(TestMod.MOD_ID + ":BlockBooster");
+        this.setBlockTextureName(TestMod.MOD_ID + ":booster");
         this.setCreativeTab(ModTab.INSTANCE);
         this.blockHardness = 0.5F;
     }

@@ -4,17 +4,21 @@ import com.neckitwin.testmod.common.slots.SlotBooster;
 import com.neckitwin.testmod.common.slots.SlotOut;
 import com.neckitwin.testmod.common.tile.TileBooster;
 import com.neckitwin.testmod.common.tile.TileSampleGUI;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerBooster extends Container {
     private TileBooster tile;
+    private int lastTimerValue = 0;
 
     public ContainerBooster(InventoryPlayer player, TileBooster tile) {
-        tile = tile;
+        this.tile = tile;
         int i = 0;
 
         this.addSlotToContainer(new Slot(tile, 0, 42, 28));
@@ -33,6 +37,27 @@ public class ContainerBooster extends Container {
         }
         for (i = 0; i < 9; ++i) {
             this.addSlotToContainer(new Slot(player, i, 15 + i * 18, 158));
+        }
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+
+        if (lastTimerValue != tile.getTimer()) {
+            for (Object crafter : this.crafters) {
+                ICrafting icrafting = (ICrafting) crafter;
+                icrafting.sendProgressBarUpdate(this, 0, tile.getTimer());
+            }
+            lastTimerValue = tile.getTimer();
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void updateProgressBar(int id, int data) {
+        if (id == 0) {
+            tile.setTimer(data);
         }
     }
 

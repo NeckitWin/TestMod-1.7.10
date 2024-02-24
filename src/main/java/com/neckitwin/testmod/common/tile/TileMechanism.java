@@ -15,6 +15,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class TileMechanism extends TileEntity implements IInventory {
     private ItemStack[] inventory;
+    private int timer = 0;
 
     public TileMechanism() {
         inventory = new ItemStack[getSizeInventory()];
@@ -75,8 +76,6 @@ public class TileMechanism extends TileEntity implements IInventory {
         }
     }
 
-    private int timer = 0;
-
     @Override
     public void updateEntity() {
         super.updateEntity();
@@ -117,7 +116,7 @@ public class TileMechanism extends TileEntity implements IInventory {
                     inventory[3] = new ItemStack(Blocks.end_portal_frame, 1); // Добавляем предмет в выходной слот
                     timer = 100; // Начинаем новый отсчет таймера
                 } else {
-                    if (inventory[3].getItem() == ItemBlock.getItemFromBlock(Blocks.end_portal_frame)) {
+                    if (inventory[3].getItem() == ItemBlock.getItemFromBlock(Blocks.end_portal_frame) && inventory[3].stackSize < 64) {
                         inventory[3].stackSize++;
                     }
                 }
